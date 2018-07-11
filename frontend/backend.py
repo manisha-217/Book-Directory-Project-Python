@@ -3,8 +3,8 @@ def connect():
     ##creat database and add table
     db=sqlite3.connect("water.db")
     t=db.cursor()
-    t.execute("CREATE TABLE IF NOT EXISTS"
-            "book (id integer PRIMARY KEY"
+    t.execute("CREATE TABLE IF NOT EXISTS "
+            "book (id integer PRIMARY KEY AUTOINCREMENT,"
                    "title text,"
                    "author text,"
                    "year integer"
@@ -14,39 +14,44 @@ def connect():
 def insert(title,author,year,isbn):
     db=sqlite3.connect("water.db")
     t=db.cursor()
-    t.execute("INSERT INTO book"
-              "value (NULL,?,?,?,?)",(title,author,year,isbn))
+    t.execute("INSERT INTO book(title,author,year) "
+                    "VALUES (?, ?, ?)", (title, author, year))
     db.commit()
     db.close()
               
 def view():
     db=sqlite3.connect("water.db")
     t=db.cursor()
-    t.excute("Select * FROM book")
+    t.execute("Select * FROM book")
     rows = t.fetchall()
     db.close()
+    return rows
 def search(title="",author="",year="",isbn=""):
     db=sqlite3.connect("water.db")
     t=db.cursor()
-    t.excute("SELECT * "
+    t.execute("SELECT * "
              "FROM book"
              "WHERE title=? OR author=? OR year=? OR isbn=?",(title,author,year,isbn))
     row=t.fetchall()     
     db.close()
+    return rows
 def update(title,author,year,isbn):
     db=sqlite3.connect("water.db")
     t=db.cursor()
-    t.excute(
-
-        )
+    t.execute("UPDATE book"
+             "SET title=? ,"
+             "author=?,"
+             "year=? ,"
+             "isbn=? "
+             "WHERE id=?",
+             (title,author,year,isbn,id))
     db.commit()
     db.close()
-def delete():
+def delete(id):
     db=sqlite3.connect(water.db)
     t=db.cursor()
-    t.excute(
-
-        )
+    t.execute("DELETE FROM book"
+             "WHERE id=?",(id,))
     db.commit()
     db.close()
 
