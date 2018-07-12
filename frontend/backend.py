@@ -7,15 +7,16 @@ def connect():
             "book (id integer PRIMARY KEY AUTOINCREMENT,"
                    "title text,"
                    "author text,"
-                   "year integer"
+                   "year integer,"
                    "isbn integer)")
     db.commit()
     db.close()
 def insert(title,author,year,isbn):
     db=sqlite3.connect("water.db")
     t=db.cursor()
-    t.execute("INSERT INTO book(title,author,year) "
-                    "VALUES (?, ?, ?)", (title, author, year))
+    t.execute("INSERT INTO book (title , author , year , isbn) "
+                    "VALUES (?, ?, ?, ?)", (title, author, year, isbn,))
+
     db.commit()
     db.close()
               
@@ -26,32 +27,24 @@ def view():
     rows = t.fetchall()
     db.close()
     return rows
-def search(title="",author="",year="",isbn=""):
+def search(title = "",author = "",year = "",isbn = ""):
     db=sqlite3.connect("water.db")
     t=db.cursor()
-    t.execute("SELECT * "
-             "FROM book"
-             "WHERE title=? OR author=? OR year=? OR isbn=?",(title,author,year,isbn))
+    t.execute("SELECT * FROM book WHERE title = ? OR author = ? OR year = ? OR isbn = ?",(title,author,year,isbn))
     row=t.fetchall()     
     db.close()
-    return rows
-def update(title,author,year,isbn):
+    return row
+def update1(id,title,author,year,isbn):
     db=sqlite3.connect("water.db")
     t=db.cursor()
-    t.execute("UPDATE book"
-             "SET title=? ,"
-             "author=?,"
-             "year=? ,"
-             "isbn=? "
-             "WHERE id=?",
-             (title,author,year,isbn,id))
+    t.execute("UPDATE book set title = ?, author = ?, year = ?, isbn = ? WHERE id = ?",(title,author,year,isbn,id))
     db.commit()
     db.close()
 def delete(id):
-    db=sqlite3.connect(water.db)
+    db=sqlite3.connect("water.db")
     t=db.cursor()
-    t.execute("DELETE FROM book"
-             "WHERE id=?",(id,))
+    t.execute("DELETE FROM book "
+             "WHERE id= ?",(id,))
     db.commit()
     db.close()
 

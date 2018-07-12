@@ -17,7 +17,7 @@ def view_command():
     for row in backend.view():
         l.insert(END,row)
 def update_command():
-    backend.update(selected_tuple[0],
+    backend.update1(selected_tuple[0],
                    e1.get(),
                    e2.get(),
                    e3.get(),
@@ -26,16 +26,16 @@ def delete_command():
     backend.delete(selected_tuple[0])
 def search_command():
     l.delete(0,END)
+    row = None
     for row in backend.search(e1.get(),
-
-
                               e2.get(),
                               e3.get(),
                               e4.get()):
         l.insert(END,row)
 def get_selected_row(event):
     global selected_tuple
-    index=l.curselection()[0]
+    index=l.curselection()
+    print(index[0])
     selected_tuple=l.get(index)
 
     e1.delete(0,END)
@@ -49,6 +49,7 @@ def get_selected_row(event):
 
     e4.delete(0,END)
     e4.insert(END,selected_tuple[4])
+
 root=Tk()
 root.title("Book Directory")
 
@@ -88,7 +89,7 @@ b4=Button(root,text="Update Selected",command=update_command,width=15)
 b4.grid(row=5,column=3)
 b5=Button(root,text="Delete Selected",command=delete_command,width=15)
 b5.grid(row=6,column=3)
-b6=Button(root,text="close",width=15)
+b6=Button(root,text="close",width=15,command=exit)
 b6.grid(row=7,column=3)
 root.mainloop()
 
